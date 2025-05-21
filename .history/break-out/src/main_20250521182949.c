@@ -14,9 +14,9 @@
 #include <string.h>
 #include <sys/time.h>
 
-#include "keyboard.h"
-#include "screen.h"
-#include "timer.h"
+#include "../include/keyboard.h"
+#include "../include/screen.h"
+#include "../include/timer.h"
 
 #define COLUNA 52
 #define LINHA 20
@@ -191,7 +191,7 @@ void telaInicio() {
   screenGotoxy(offsetX-20, offsetY + 3);
   printf(" - Pressione qualquer tecla para começar o jogo");
   screenGotoxy(offsetX-20, offsetY + 4);
-  printf(" - Quebre os blocos com a bola");
+  printf(" - Quebre  com a bola");
   screenGotoxy(offsetX-20, offsetY + 5);
   printf(" - 2 poderes podem apareçer (1- mais vidas, 2-multiplicador de pontos)\n");
   screenGotoxy(offsetX-20, offsetY + 6);

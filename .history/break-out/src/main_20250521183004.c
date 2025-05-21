@@ -14,9 +14,9 @@
 #include <string.h>
 #include <sys/time.h>
 
-#include "keyboard.h"
-#include "screen.h"
-#include "timer.h"
+#include "../include/keyboard.h"
+#include "../include/screen.h"
+#include "../include/timer.h"
 
 #define COLUNA 52
 #define LINHA 20
