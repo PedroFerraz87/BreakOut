@@ -181,7 +181,7 @@ void telaInicio() {
   char ch = '\0';
 
   screenGotoxy(offsetX, offsetY - 1);
-  printf("BrickOut");
+  printf("BreakOut");
 
   screenGotoxy(offsetX-2, offsetY);
   printf("Instruções:\n");
