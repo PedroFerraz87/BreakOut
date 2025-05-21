@@ -4,7 +4,7 @@
   Primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local, conforme disponibilizado no GitHub. Em seguida, execute o comando a seguir:
   
 
-1.   gcc -I./include src/*.c -o break-out
+1.   gcc src/keyboard.o src/main.o src/screen.o src/timer.o -o break-out
 
 2.    ./break-out
   */
