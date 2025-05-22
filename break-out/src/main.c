@@ -187,9 +187,9 @@ void telaInicio() {
   printf("Instruções:\n");
 
   screenGotoxy(offsetX-20, offsetY + 2);
-  printf(" - Use as teclas A e D para mover a base");
+  printf(" - Use as teclas A e D para mover a plataforma");
   screenGotoxy(offsetX-20, offsetY + 3);
-  printf(" - Pressione qualquer tecla para começar o jogo");
+  printf(" - Pressione ENTER para começar o jogo");
   screenGotoxy(offsetX-20, offsetY + 4);
   printf(" - Quebre os blocos com a bola");
   screenGotoxy(offsetX-20, offsetY + 5);
