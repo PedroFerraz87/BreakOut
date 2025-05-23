@@ -2,9 +2,6 @@
 
 Projeto de PIF da AV2 feito por um grupo de 3 alunos da turma A do 2° período de ciência da computação da CESAR School.
 
-# Vídeo do jogo sendo executado
-
-[Link para o Vídeo no YouTube](https://youtu.be/j0q5LY398fI)
 
  ## Executando o Jogo
   Para compilar os arquivos, primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local. Em seguida, execute o comando a seguir:
@@ -14,6 +11,10 @@ Projeto de PIF da AV2 feito por um grupo de 3 alunos da turma A do 2° período 
 3. gcc src/keyboard.o src/main.o src/screen.o src/timer.o -o break-out
 4. ./break-out
    
+## Vídeo do jogo sendo executado
+
+[Link para o Vídeo no YouTube](https://youtu.be/j0q5LY398fI)
+
 ## Descrição
 O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebater a bola e não deixar cair e quebrar os blocos na parte superior da tela. Além disso, implementamos alguns um "poder" que surge aleatoriamente adicionando vidas (random).
 ### Como jogar
