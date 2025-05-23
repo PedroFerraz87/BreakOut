@@ -20,7 +20,10 @@
 typedef struct Cord{
 int x;
 int y;
+struct Cord *next;
 }Cord;
+
+
 
 int ballPosition = 0;
 
@@ -36,11 +39,7 @@ int main() {
   int i;
   int  vidas = 3;
   int pontos = 0;
-
-  struct timeval start;
-  gettimeofday(&start, NULL);
-  srand(start.tv_usec);
-
+  
   Cord *bola = (Cord*)malloc(sizeof(Cord));
   Cord *dir = (Cord*)malloc(sizeof(Cord));
   bola->x = offsetX + 26; 
@@ -232,61 +231,73 @@ void moveBarraD(int *x){
   screenUpdate();
   }
 
-void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa){
-  struct timeval start;
+void moveBola(Cord *bola, int barra, Cord *dir, int *pontos, int *vidas, char **mapa) {
     int offsetX = (MAXX - COLUNA) / 2;
-    int convx = bola->x - offsetX-1;
+    int convx = bola->x - offsetX - 1;
     int convy = bola->y - 4;
-    if (bola->y == 19 && (bola->x - barra)<=6 && (bola->x - barra)>=0){
-      dir->y=-1;
-      if (barra+3<bola->x){
-        dir->x = 1;
-      }else if (barra+3>bola->x){
-        dir->x = -1;
-      }else{
-        dir->x = 0;
-      }
-    }else{
-      char ch = mapa[convy][convx];
-        if (ch == '='){
-          mapa[convy][convx] = ' ';
-            ch = mapa[convy][convx-1];
-            if (ch == '='){
-              mapa[convy][convx-1] = ' ';
-              ch = mapa[convy][convx-2];
-              if (ch == '='){
-                mapa[convy][convx-2] = ' ';
-                screenGotoxy(bola->x-2, bola->y-1);
-                printf("   ");
-              }else{
-                mapa[convy][convx+1] = ' ';
-                screenGotoxy(bola->x-1, bola->y-1);
-                printf("   ");
 
-              }}else{
-                mapa[convy][convx+2] = ' ';
-                screenGotoxy(bola->x, bola->y-1);
-              printf("   ");
-            }
-          *pontos += 10;   // a cada quebra de bloco
-          
-          int random = rand() % 10;
-          if (random == 1){
-            (*vidas)++;
-          }
-          dir->y *= -1;
-      }
-      if (bola->x==offsetX+2){
-        dir->x = 1;
-      }else if (bola->x==MAXX-offsetX-1){
-        dir->x = -1;  
-      }if (bola->y==4){
-        dir->y = 1;
-      }if (bola->y==21){
-        (*vidas)--;
+    if (bola->y == 19 && (bola->x - barra) <= 6 && (bola->x - barra) >= 0) {
         dir->y = -1;
-      }
+        if (barra + 3 < bola->x) {
+            dir->x = 1;
+        } else if (barra + 3 > bola->x) {
+            dir->x = -1;
+        } else {
+            dir->x = 0;
+        }
+    } else {
+        char ch = mapa[convy][convx];
+        if (ch == '=') {
+            mapa[convy][convx] = ' ';
+            ch = mapa[convy][convx - 1];
+            if (ch == '=') {
+                mapa[convy][convx - 1] = ' ';
+                ch = mapa[convy][convx - 2];
+                if (ch == '=') {
+                    mapa[convy][convx - 2] = ' ';
+                    screenGotoxy(bola->x - 2, bola->y - 1);
+                    printf("   ");
+                } else {
+                    mapa[convy][convx + 1] = ' ';
+                    screenGotoxy(bola->x - 1, bola->y - 1);
+                    printf("   ");
+                }
+            } else {
+                mapa[convy][convx + 2] = ' ';
+                screenGotoxy(bola->x, bola->y - 1);
+                printf("   ");
+            }
+
+            *pontos += 10;
+
+            // ⚙️ Sorteio dos poderes (corrigido!)
+            int random = rand() % 12;
+            if (random == 1 || random == 0) {
+                (*vidas)++;  // 💚 Vida extra
+            }
+            if (random == 3 || random == 0) {
+                (*pontos) *= 2; // ✨ Multiplicador de pontos
+            }
+
+            dir->y *= -1;
+        }
+
+        if (bola->x == offsetX + 2) {
+            dir->x = 1;
+        } else if (bola->x == MAXX - offsetX - 1) {
+            dir->x = -1;
+        }
+
+        if (bola->y == 4) {
+            dir->y = 1;
+        }
+
+        if (bola->y == 21) {
+            (*vidas)--;
+            dir->y = -1;
+        }
     }
+
     screenGotoxy(bola->x, bola->y);
     printf(" ");
     bola->x += dir->x;
@@ -295,4 +306,4 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
     screenSetColor(GREEN, BLACK);
     printf("*");
     screenUpdate();
-  }
+}

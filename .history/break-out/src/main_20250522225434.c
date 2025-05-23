@@ -268,11 +268,13 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
                 screenGotoxy(bola->x, bola->y-1);
               printf("   ");
             }
-          *pontos += 10;   // a cada quebra de bloco
+          *pontos += 10; // a cada quebra de bloco
           
-          int random = rand() % 10;
+          int random = rand() % 5;
           if (random == 1){
             (*vidas)++;
+          }else if (random == 2){
+            (*pontos) *= 2;
           }
           dir->y *= -1;
       }

@@ -1,15 +1,19 @@
 /*
   Para compilar os arquivos
-  Primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local, conforme disponibilizado no GitHub. Em seguida, execute o comando a seguir:
 
-1. cd break-out
-2.  make
-3. ./break-out
- */
+  Primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local, conforme disponibilizado no GitHub. Em seguida, execute o comando a seguir:
+  
+
+1.   gcc src/keyboard.o src/main.o src/screen.o src/timer.o -o break-out
+
+2.    ./break-out
+  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+
 #include "keyboard.h"
 #include "screen.h"
 #include "timer.h"
@@ -23,43 +27,47 @@ int y;
 }Cord;
 
 int ballPosition = 0;
-
 void telaInicio();
+
 void DesenhaMapa(char **mapa);
+
 void moveBarraA(int *x);
 void moveBarraD(int *x);
+
 void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa);
+
+
 
 int main() {
   int offsetX = (MAXX - COLUNA) / 2;
   char **mapa, ch;
   int i;
+
   int  vidas = 3;
   int pontos = 0;
 
-  struct timeval start;
-  gettimeofday(&start, NULL);
-  srand(start.tv_usec);
-
+  
   Cord *bola = (Cord*)malloc(sizeof(Cord));
   Cord *dir = (Cord*)malloc(sizeof(Cord));
-  bola->x = offsetX + 26; 
+  bola->x = offsetX + 26;
   bola->y = 19;
   dir->x = 0;
   dir->y = 0;
 
+  
 int barra = offsetX + 23;
 
   screenInit(1);
   telaInicio();
   screenClear();
 
+
   mapa = (char **)calloc(LINHA, sizeof(char*)); // Alocando dinamicamente a matriz do labirinto
   for (i = 0; i < LINHA; i++) {
       mapa[i] = (char *)calloc(COLUNA + 1, sizeof(char));
   }
 
-  char mapa_init[LINHA][COLUNA + 1] = { // interface dos blocos a serem quebrados e a plataforma
+  char mapa_init[LINHA][COLUNA + 1] = { // interface dos blocos a serem quebrados e plataforma
       "                                                   ",
       "=== === === === === === === === === === === === ===",
       "=== === === === === === === === === === === === ===",
@@ -87,7 +95,7 @@ int barra = offsetX + 23;
   keyboardInit();
   timerInit(200);
   screenGotoxy(offsetX, 21);
-  while (1){ // while true
+  while (1){
       if (keyhit()){
           ch = readch();
         if (ch == 27){
@@ -129,10 +137,12 @@ int barra = offsetX + 23;
         timerUpdateTimer(200);
         moveBola(bola, barra, dir, &pontos, &vidas, mapa);
 
+
         screenGotoxy(offsetX+1,3);
         screenSetColor(RED, BLACK);
         printf("%d",vidas);
 
+        
         screenGotoxy(MAXX-offsetX-4,3);
         screenSetColor(YELLOW, BLACK);
         printf("%d",pontos);
@@ -155,6 +165,8 @@ int barra = offsetX + 23;
   }
   timerDestroy();
   keyboardDestroy(); 
+
+
 
   return 0;
 }
@@ -220,6 +232,7 @@ void moveBarraA(int *x){
   printf(" ");
   (*x)--;
   screenUpdate();
+
 }
 
 void moveBarraD(int *x){
@@ -268,11 +281,13 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
                 screenGotoxy(bola->x, bola->y-1);
               printf("   ");
             }
-          *pontos += 10;   // a cada quebra de bloco
-          
-          int random = rand() % 10;
-          if (random == 1){
+          *pontos += 10;
+          srand(gettimeofday(&start,NULL));
+          int random = rand() % 12;
+          if (random == 1 || random == 0){
             (*vidas)++;
+          }else if (random == 3 || random == 0){
+            (*pontos) *= 2;
           }
           dir->y *= -1;
       }

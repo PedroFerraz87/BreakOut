@@ -38,9 +38,10 @@ int main() {
   int pontos = 0;
 
   struct timeval start;
-  gettimeofday(&start, NULL);
-  srand(start.tv_usec);
+gettimeofday(&start, NULL);
+srand(start.tv_usec);
 
+  
   Cord *bola = (Cord*)malloc(sizeof(Cord));
   Cord *dir = (Cord*)malloc(sizeof(Cord));
   bola->x = offsetX + 26; 
@@ -268,11 +269,13 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
                 screenGotoxy(bola->x, bola->y-1);
               printf("   ");
             }
-          *pontos += 10;   // a cada quebra de bloco
+          *pontos += 10; // a cada quebra de bloco
           
-          int random = rand() % 10;
-          if (random == 1){
+          int random = rand() % 12;
+          if (random == 1 || random == 0){
             (*vidas)++;
+          }else if (random == 3 || random == 0){
+            (*pontos) *= 2;
           }
           dir->y *= -1;
       }

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+
 #include "keyboard.h"
 #include "screen.h"
 #include "timer.h"
@@ -36,11 +37,7 @@ int main() {
   int i;
   int  vidas = 3;
   int pontos = 0;
-
-  struct timeval start;
-  gettimeofday(&start, NULL);
-  srand(start.tv_usec);
-
+  
   Cord *bola = (Cord*)malloc(sizeof(Cord));
   Cord *dir = (Cord*)malloc(sizeof(Cord));
   bola->x = offsetX + 26; 
@@ -155,7 +152,7 @@ int barra = offsetX + 23;
   }
   timerDestroy();
   keyboardDestroy(); 
-
+  
   return 0;
 }
 
@@ -220,6 +217,7 @@ void moveBarraA(int *x){
   printf(" ");
   (*x)--;
   screenUpdate();
+
 }
 
 void moveBarraD(int *x){
@@ -268,11 +266,13 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
                 screenGotoxy(bola->x, bola->y-1);
               printf("   ");
             }
-          *pontos += 10;   // a cada quebra de bloco
-          
-          int random = rand() % 10;
-          if (random == 1){
+          *pontos += 10;
+          srand(gettimeofday(&start,NULL));
+          int random = rand() % 12;
+          if (random == 1 || random == 0){
             (*vidas)++;
+          }else if (random == 3 || random == 0){
+            (*pontos) *= 2;
           }
           dir->y *= -1;
       }
