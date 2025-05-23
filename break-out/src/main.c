@@ -216,7 +216,7 @@ void telaInicio() {
   screenGotoxy(offsetX-20, offsetY + 4);
   printf(" - Quebre os blocos com a bola");
   screenGotoxy(offsetX-20, offsetY + 5);
-  printf(" - 2 poderes podem apareçer (1- mais vidas, 2-multiplicador de pontos)\n");
+  printf(" - Vidas extras podem aparecer durante o jogo, portanto, quebre o máximo de blocos possível\n");
   screenGotoxy(offsetX-20, offsetY + 6);
   printf(" -Para sair no meio do jogo, pressione ESC, para pausar pressione ENTER\n");
   screenGotoxy(offsetX, offsetY + 8);
