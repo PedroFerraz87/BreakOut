@@ -25,8 +25,6 @@ int y;
 }Cord;
 
 typedef struct Node {
-  int x;
-  int y;
   struct Node* next;
 } Node;
 
@@ -36,27 +34,26 @@ void moveBarraA(int *x);
 void moveBarraD(int *x);
 void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks);
 
-Node* createNode(int x, int y) {
-  Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->x = x;
-    newNode->y = y;
+Node* createNode() {
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->next = NULL;
     return newNode;
-  }
+}
   
-void insertNode(Node** head, int x, int y) {
-    Node* newNode = createNode(x, y);
+void insertNode(Node** head) {
+    Node* newNode = createNode();
     newNode->next = *head;
     *head = newNode;
 }
 
-void printDestroyedBlocks(Node* head) {
-    printf("\nBlocos destruídos:\n");
+void printDestroyedCount(Node* head) {
+    int count = 0;
     Node* current = head;
     while (current != NULL) {
-        printf("Bloco na posição (x: %d, y: %d)\n", current->x, current->y);
+        count++;
         current = current->next;
     }
+    printf("\nTotal de blocos destruidos: %d\n", count);
 }
 
 void freeList(Node* head) {
@@ -87,18 +84,18 @@ int main() {
   dir->x = 0;
   dir->y = 0;
 
-int barra = offsetX + 23;
+  int barra = offsetX + 23;
 
   screenInit(1);
   telaInicio();
   screenClear();
 
-  mapa = (char **)calloc(LINHA, sizeof(char*)); // Alocando dinamicamente a matriz do labirinto
+  mapa = (char **)calloc(LINHA, sizeof(char*));
   for (i = 0; i < LINHA; i++) {
       mapa[i] = (char *)calloc(COLUNA + 1, sizeof(char));
   }
 
-  char mapa_init[LINHA][COLUNA + 1] = { // interface dos blocos a serem quebrados e a plataforma
+  char mapa_init[LINHA][COLUNA + 1] = {
       "                                                   ",
       "=== === === === === === === === === === === === ===",
       "=== === === === === === === === === === === === ===",
@@ -126,75 +123,76 @@ int barra = offsetX + 23;
   keyboardInit();
   timerInit(200);
   screenGotoxy(offsetX, 21);
-  while (1){ // while true
+  while (1){
       if (keyhit()){
           ch = readch();
-        if (ch == 27){
-            FILE *score;
-            score = fopen("score.txt", "w");
-            if(score == NULL) {
-                printf("Error opening file for writing!\n");
-                return -1;
-            }
-            fprintf(score, "%d", pontos);
-            fclose(score);
-            screenGotoxy(offsetX, 22);
-            screenUpdate();
-            break;
-        } else if (ch == 10){
-          while(1){
-            screenGotoxy(LINHA+3,3);
-            printf("Pressione ENTER para despausar");
-            screenUpdate();
-            ch = readch();
-            if (ch == 10){
-              screenGotoxy(LINHA+3,3);
-              printf("                              ");
+          if (ch == 27){
+              FILE *score;
+              score = fopen("score.txt", "w");
+              if(score == NULL) {
+                  printf("Error opening file for writing!\n");
+                  return -1;
+              }
+              fprintf(score, "%d", pontos);
+              fclose(score);
+              screenGotoxy(offsetX, 22);
               screenUpdate();
               break;
-            }
+          } else if (ch == 10){
+              while(1){
+                  screenGotoxy(LINHA+3,3);
+                  printf("Pressione ENTER para despausar");
+                  screenUpdate();
+                  ch = readch();
+                  if (ch == 10){
+                      screenGotoxy(LINHA+3,3);
+                      printf("                              ");
+                      screenUpdate();
+                      break;
+                  }
+              }
+          } else if (ch ==97){
+              if (barra-2>offsetX){
+                  moveBarraA(&barra);
+              }
+          } else if (ch ==100){
+              if (barra+8<MAXX-offsetX){
+                  moveBarraD(&barra);
+              }
           }
-        } else if (ch ==97){
-          if (barra-2>offsetX){
-            moveBarraA(&barra);
-          }
-        } else if (ch ==100){
-          if (barra+8<MAXX-offsetX){
-          moveBarraD(&barra);
-          }
-        }
       }
       if (timerTimeOver()){ 
-        timerUpdateTimer(200);
-        moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
+          timerUpdateTimer(200);
+          moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
 
-        screenGotoxy(offsetX+1,3);
-        screenSetColor(RED, BLACK);
-        printf("%d",vidas);
+          screenGotoxy(offsetX+1,3);
+          screenSetColor(RED, BLACK);
+          printf("%d",vidas);
 
-        screenGotoxy(MAXX-offsetX-4,3);
-        screenSetColor(YELLOW, BLACK);
-        printf("%d",pontos);
+          screenGotoxy(MAXX-offsetX-4,3);
+          screenSetColor(YELLOW, BLACK);
+          printf("%d",pontos);
 
-        if (vidas == 0){
-          FILE *score;
-          score = fopen("score.txt", "a");
-          fseek(score, 0, SEEK_SET);
-          fprintf(score, "%d\n", pontos);
-          fclose(score);
-          
-          screenGotoxy(LINHA+30,3);
-          printf("Score final:");
-          
-          screenGotoxy(offsetX,22);
-          screenUpdate();
-          break;
-        }
+          if (vidas == 0){
+              FILE *score;
+              score = fopen("score.txt", "a");
+              fseek(score, 0, SEEK_SET);
+              fprintf(score, "%d\n", pontos);
+              fclose(score);
+              
+              screenGotoxy(LINHA+30,3);
+              printf("Score final:");
+              
+              screenGotoxy(offsetX,22);
+              screenUpdate();
+              break;
+          }
       }
   }
   timerDestroy();
   keyboardDestroy(); 
-  printDestroyedBlocks(destroyedBlocks);
+
+  printDestroyedCount(destroyedBlocks);
   freeList(destroyedBlocks);
 
   return 0;
@@ -271,63 +269,62 @@ void moveBarraD(int *x){
   printf(" ");
   (*x)++;
   screenUpdate();
-  }
+}
 
 void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks){
-  struct timeval start;
     int offsetX = (MAXX - COLUNA) / 2;
-    int convx = bola->x - offsetX-1;
-    int convy = bola->y - 4;
+    int offsetY = (MAXY - LINHA) / 2;
+    int convx = bola->x - (offsetX + 1);
+    int convy = bola->y - (offsetY + 1);
+
     if (bola->y == 19 && (bola->x - barra)<=6 && (bola->x - barra)>=0){
-      dir->y=-1;
-      if (barra+3<bola->x){
-        dir->x = 1;
-      }else if (barra+3>bola->x){
-        dir->x = -1;
-      }else{
-        dir->x = 0;
-      }
+        dir->y=-1;
+        if (barra+3<bola->x){
+            dir->x = 1;
+        }else if (barra+3>bola->x){
+            dir->x = -1;
+        }else{
+            dir->x = 0;
+        }
     }else{
-      char ch = mapa[convy][convx];
-        if (ch == '='){
-          mapa[convy][convx] = ' ';
-          ch = mapa[convy][convx-1];
-      
-            if (ch == '='){
-              mapa[convy][convx-1] = ' ';
-              ch = mapa[convy][convx-2];
-              if (ch == '='){
-                mapa[convy][convx-2] = ' ';
-                screenGotoxy(bola->x-2, bola->y-1);
-                printf("   ");
-              }else{
-                mapa[convy][convx+1] = ' ';
-                screenGotoxy(bola->x-1, bola->y-1);
+        if (convy >= 0 && convy < LINHA && convx >= 0 && convx < COLUNA) {
+            if (mapa[convy][convx] == '=') {
+                int inicio = convx;
+                while (inicio > 0 && mapa[convy][inicio - 1] == '=') {
+                    inicio--;
+                }
+
+                for (int k = 0; k < 3; k++) {
+                    if ((inicio + k) < COLUNA && mapa[convy][inicio + k] == '=') {
+                        mapa[convy][inicio + k] = ' ';
+                    }
+                }
+
+                screenGotoxy(offsetX + 1 + inicio, offsetY + 1 + convy);
                 printf("   ");
 
-              }}else{
-                mapa[convy][convx+2] = ' ';
-                screenGotoxy(bola->x, bola->y-1);
-              printf("   ");
+                *pontos += 10;
+                insertNode(destroyedBlocks);
+
+                int random = rand() % 15;
+                if (random == 1){
+                    (*vidas)++;
+                }
+
+                dir->y *= -1;
             }
-          *pontos += 10;   // a cada quebra de bloco
-          
-          int random = rand() % 15;
-          if (random == 1){
-            (*vidas)++;
-          }
-          dir->y *= -1;
-      }
-      if (bola->x==offsetX+2){
-        dir->x = 1;
-      }else if (bola->x==MAXX-offsetX-1){
-        dir->x = -1;  
-      }if (bola->y==4){
-        dir->y = 1;
-      }if (bola->y==21){
-        (*vidas)--;
-        dir->y = -1;
-      }
+        }
+
+        if (bola->x==offsetX+2){
+            dir->x = 1;
+        }else if (bola->x==MAXX-offsetX-1){
+            dir->x = -1;  
+        }if (bola->y==4){
+            dir->y = 1;
+        }if (bola->y==21){
+            (*vidas)--;
+            dir->y = -1;
+        }
     }
     screenGotoxy(bola->x, bola->y);
     printf(" ");
@@ -337,4 +334,4 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
     screenSetColor(GREEN, BLACK);
     printf("*");
     screenUpdate();
-  }
+}
