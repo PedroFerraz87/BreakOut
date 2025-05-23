@@ -1,13 +1,14 @@
 # BreakOut
 
-Projeto de PIF da AV2 feito por um grupo de 3 alunos do segundo período de ciência da computação da Cesar School.
+Projeto de PIF da AV2 feito por um grupo de 3 alunos do 2° período de ciência da computação da CESAR School.
 
  ## Executando o Jogo
   Para compilar os arquivos, primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local. Em seguida, execute o comando a seguir:
 
-1. cd break-out
-2.  make
-3. ./break-out
+1. git clone https://github.com/PedroFerraz87/breakout.git
+2. cd break-out
+3.  make
+4. ./break-out
    
 ## Descrição
 O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebater a bola e não deixar cair e quebrar os blocos na parte superior da tela. Além disso, implementamos alguns um "poder" que surge aleatoriamente adicionando vidas (random).
@@ -19,4 +20,4 @@ O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebat
 ## Membros do grupo
 - Pedro Valença Ferraz - pvf@cesar.school
 - Caio Cabral da Mata Buonora - ccmb@cesar.school
-- Rafael Fernandes - rlclf@cesar.school
+- Rafael de Lima Cavalcanti Loyo Fernandes - rlclf@cesar.school
