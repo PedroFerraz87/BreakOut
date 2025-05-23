@@ -2,7 +2,7 @@
 
 Projeto de PIF da AV2 feito por um grupo de 3 alunos da turma A do 2° período de ciência da computação da CESAR School.
 
-# ScreenCast
+# Vídeo do jogo sendo executado
 
 [Link para o Vídeo no YouTube](https://youtu.be/j0q5LY398fI)
 
@@ -11,7 +11,7 @@ Projeto de PIF da AV2 feito por um grupo de 3 alunos da turma A do 2° período 
 
 1. git clone https://github.com/PedroFerraz87/breakout.git
 2. cd break-out
-3.  make
+3. gcc src/keyboard.o src/main.o src/screen.o src/timer.o -o break-out
 4. ./break-out
    
 ## Descrição
