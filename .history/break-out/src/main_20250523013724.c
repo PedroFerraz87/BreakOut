@@ -17,12 +17,12 @@
 #define COLUNA 52
 #define LINHA 20
 
-int ballPosition = 0;
-
 typedef struct Cord{
 int x;
 int y;
 }Cord;
+
+int ballPosition = 0;
 
 typedef struct Node {
   int x;
@@ -166,7 +166,7 @@ int barra = offsetX + 23;
       }
       if (timerTimeOver()){ 
         timerUpdateTimer(200);
-        moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
+        moveBola(bola, barra, dir, &pontos, &vidas, mapa,  Node **destroyedBlocks);
 
         screenGotoxy(offsetX+1,3);
         screenSetColor(RED, BLACK);

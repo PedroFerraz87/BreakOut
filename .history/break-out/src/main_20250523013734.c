@@ -24,6 +24,7 @@ int x;
 int y;
 }Cord;
 
+
 typedef struct Node {
   int x;
   int y;
@@ -166,7 +167,7 @@ int barra = offsetX + 23;
       }
       if (timerTimeOver()){ 
         timerUpdateTimer(200);
-        moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
+        moveBola(bola, barra, dir, &pontos, &vidas, mapa,  Node **destroyedBlocks);
 
         screenGotoxy(offsetX+1,3);
         screenSetColor(RED, BLACK);

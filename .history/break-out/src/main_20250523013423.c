@@ -17,12 +17,18 @@
 #define COLUNA 52
 #define LINHA 20
 
-int ballPosition = 0;
-
 typedef struct Cord{
 int x;
 int y;
 }Cord;
+
+int ballPosition = 0;
+
+void telaInicio();
+void DesenhaMapa(char **mapa);
+void moveBarraA(int *x);
+void moveBarraD(int *x);
+void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa);
 
 typedef struct Node {
   int x;
@@ -30,20 +36,14 @@ typedef struct Node {
   struct Node* next;
 } Node;
 
-void telaInicio();
-void DesenhaMapa(char **mapa);
-void moveBarraA(int *x);
-void moveBarraD(int *x);
-void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks);
-
 Node* createNode(int x, int y) {
-  Node* newNode = (Node*)malloc(sizeof(Node));
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->x = x;
     newNode->y = y;
     newNode->next = NULL;
     return newNode;
-  }
-  
+}
+
 void insertNode(Node** head, int x, int y) {
     Node* newNode = createNode(x, y);
     newNode->next = *head;
@@ -273,7 +273,7 @@ void moveBarraD(int *x){
   screenUpdate();
   }
 
-void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks){
+void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destr){
   struct timeval start;
     int offsetX = (MAXX - COLUNA) / 2;
     int convx = bola->x - offsetX-1;
@@ -292,12 +292,15 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
         if (ch == '='){
           mapa[convy][convx] = ' ';
           ch = mapa[convy][convx-1];
-      
+          insertNode(&destroyedBlocks, convx, convy);
+
             if (ch == '='){
               mapa[convy][convx-1] = ' ';
+              insertNode(&destroyedBlocks, convx-1, convy);
               ch = mapa[convy][convx-2];
               if (ch == '='){
                 mapa[convy][convx-2] = ' ';
+                insertNode(&destroyedBlocks, convx-2, convy);
                 screenGotoxy(bola->x-2, bola->y-1);
                 printf("   ");
               }else{

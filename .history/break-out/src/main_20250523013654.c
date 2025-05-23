@@ -17,18 +17,12 @@
 #define COLUNA 52
 #define LINHA 20
 
-int ballPosition = 0;
-
 typedef struct Cord{
 int x;
 int y;
 }Cord;
 
-typedef struct Node {
-  int x;
-  int y;
-  struct Node* next;
-} Node;
+int ballPosition = 0;
 
 void telaInicio();
 void DesenhaMapa(char **mapa);
@@ -36,14 +30,20 @@ void moveBarraA(int *x);
 void moveBarraD(int *x);
 void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks);
 
+typedef struct Node {
+  int x;
+  int y;
+  struct Node* next;
+} Node;
+
 Node* createNode(int x, int y) {
-  Node* newNode = (Node*)malloc(sizeof(Node));
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->x = x;
     newNode->y = y;
     newNode->next = NULL;
     return newNode;
-  }
-  
+}
+
 void insertNode(Node** head, int x, int y) {
     Node* newNode = createNode(x, y);
     newNode->next = *head;
@@ -166,7 +166,7 @@ int barra = offsetX + 23;
       }
       if (timerTimeOver()){ 
         timerUpdateTimer(200);
-        moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
+        moveBola(bola, barra, dir, &pontos, &vidas, mapa,  Node **destroyedBlocks);
 
         screenGotoxy(offsetX+1,3);
         screenSetColor(RED, BLACK);
