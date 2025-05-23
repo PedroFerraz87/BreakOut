@@ -152,11 +152,11 @@ int main() {
                       break;
                   }
               }
-          } else if (ch == 'a'){  // mover para a esquerda
+          } else if (ch == 97){  // mover para a esquerda
               if (barra-2>offsetX){
                   moveBarraA(&barra);
               }
-          } else if (ch == 'd'){ // mover para a direita
+          } else if (ch ==100){
               if (barra+8<MAXX-offsetX){
                   moveBarraD(&barra);
               }
@@ -165,7 +165,7 @@ int main() {
       if (timerTimeOver()){ 
           timerUpdateTimer(200);
           moveBola(bola, barra, dir, &pontos, &vidas, mapa, &destroyedBlocks);
-            // Exibe vidas e pontos
+
           screenGotoxy(offsetX+1,3);
           screenSetColor(RED, BLACK);
           printf("%d",vidas);
@@ -174,7 +174,7 @@ int main() {
           screenSetColor(YELLOW, BLACK);
           printf("%d",pontos);
 
-          if (vidas == 0){ // Fim de jogo
+          if (vidas == 0){
               FILE *score;
               score = fopen("score.txt", "a");
               fseek(score, 0, SEEK_SET);
@@ -192,13 +192,14 @@ int main() {
   }
   timerDestroy();
   keyboardDestroy(); 
+
   printDestroyedCount(destroyedBlocks);
   freeList(destroyedBlocks);
 
   return 0;
 }
 
-void telaInicio() { // Instruções
+void telaInicio() {
   screenClear();
   int offsetX = (MAXX) / 2;
   int offsetY = (MAXY-6) / 2;
@@ -222,20 +223,21 @@ void telaInicio() { // Instruções
   screenGotoxy(offsetX, offsetY + 8);
   printf("Boa sorte!");
 
-  getchar();  // Espera o jogador apertar ENTER
+  getchar();
 }
 
 void DesenhaMapa(char **mapa) {
+
   screenClear();
 
   int offsetX = (MAXX - COLUNA) / 2;
   int offsetY = (MAXY - LINHA) / 2;
 
-  for (int y = 0; y < LINHA; y++) {  // Percorre cada linha e coluna do mapa para desenhar na tela
+  for (int y = 0; y < LINHA; y++) {
     screenGotoxy(offsetX + 1, offsetY + y + 1);
     for (int x = 0; x < COLUNA; x++) {
       char ch = mapa[y][x];
-      if (ch == '-') {   // Define a cor dependendo do caractere
+      if (ch == '-') {
         screenSetColor(WHITE, WHITE);
       } else if (ch == '=') {
         screenSetColor(WHITE, WHITE);
@@ -247,10 +249,10 @@ void DesenhaMapa(char **mapa) {
       printf("%c", ch);
     }
   }
-  screenUpdate();  // Atualiza a tela com o novo estado do mapa
+  screenUpdate();
 }
 
-void moveBarraA(int *x){ // Mover plataforma pra esquerda
+void moveBarraA(int *x){
   screenSetColor(WHITE, WHITE);
   screenGotoxy((*x)-1, 20);
   printf("-");
@@ -260,7 +262,7 @@ void moveBarraA(int *x){ // Mover plataforma pra esquerda
   screenUpdate();
 }
 
-void moveBarraD(int *x){ // Mover plataforma pra direita
+void moveBarraD(int *x){
   screenSetColor(WHITE, WHITE);
   screenGotoxy((*x)+6, 20);
   printf("-");
@@ -273,10 +275,10 @@ void moveBarraD(int *x){ // Mover plataforma pra direita
 void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **mapa, Node **destroyedBlocks){
     int offsetX = (MAXX - COLUNA) / 2;
     int offsetY = (MAXY - LINHA) / 2;
-    int convx = bola->x - (offsetX + 1); // Converte coordenada da bola para índice no array do mapa
+    int convx = bola->x - (offsetX + 1);
     int convy = bola->y - (offsetY + 1);
 
-    if (bola->y == 19 && (bola->x - barra)<=6 && (bola->x - barra)>=0){  // Verifica colisão com a barra
+    if (bola->y == 19 && (bola->x - barra)<=6 && (bola->x - barra)>=0){
         dir->y=-1;
         if (barra+3<bola->x){
             dir->x = 1;
@@ -285,52 +287,52 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
         }else{
             dir->x = 0;
         }
-    }else{ // Verifica colisão com blocos dentro dos limites do mapa
+    }else{
         if (convy >= 0 && convy < LINHA && convx >= 0 && convx < COLUNA) {
-            if (mapa[convy][convx] == '=') { // Se bateu em um bloco
+            if (mapa[convy][convx] == '=') {
                 int inicio = convx;
                 while (inicio > 0 && mapa[convy][inicio - 1] == '=') {
                     inicio--;
                 }
 
-                for (int k = 0; k < 3; k++) { // Remove os 3 caracteres que formam o bloco
+                for (int k = 0; k < 3; k++) {
                     if ((inicio + k) < COLUNA && mapa[convy][inicio + k] == '=') {
                         mapa[convy][inicio + k] = ' ';
                     }
                 }
 
-                screenGotoxy(offsetX + 1 + inicio, offsetY + 1 + convy);  // Atualiza o mapa apagando o bloco destruído
+                screenGotoxy(offsetX + 1 + inicio, offsetY + 1 + convy);
                 printf("   ");
 
                 *pontos += 10;
                 insertNode(destroyedBlocks);
 
-                int random = rand() % 15;   
+                int random = rand() % 15;
                 if (random == 1){
                     (*vidas)++;
                 }
 
-                dir->y *= -1; // Inverte direção vertical (rebate)
+                dir->y *= -1;
             }
         }
 
-        if (bola->x==offsetX+2){ // Verifica colisões com as paredes laterais
+        if (bola->x==offsetX+2){
             dir->x = 1;
         }else if (bola->x==MAXX-offsetX-1){
             dir->x = -1;  
-        }if (bola->y==4){  // Verifica colisão com o topo
+        }if (bola->y==4){
             dir->y = 1;
-        }if (bola->y==21){ // Verifica se caiu no fundo
+        }if (bola->y==21){
             (*vidas)--;
             dir->y = -1;
         }
     }
     screenGotoxy(bola->x, bola->y);
     printf(" ");
-    bola->x += dir->x;  // Atualiza a posição da bola
+    bola->x += dir->x;
     bola->y += dir->y;
     screenGotoxy(bola->x, bola->y);
-    screenSetColor(BLACK, BLACK);
+    screenSetColor(GREEN, BLACK);
     printf("*");
     screenUpdate();
 }

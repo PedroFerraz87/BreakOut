@@ -320,17 +320,17 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
             dir->x = -1;  
         }if (bola->y==4){  // Verifica colisão com o topo
             dir->y = 1;
-        }if (bola->y==21){ // Verifica se caiu no fundo
+        }if (bola->y==21){ // Verifica se caiu no fundo (perde vida)
             (*vidas)--;
             dir->y = -1;
         }
     }
     screenGotoxy(bola->x, bola->y);
     printf(" ");
-    bola->x += dir->x;  // Atualiza a posição da bola
+    bola->x += dir->x;
     bola->y += dir->y;
     screenGotoxy(bola->x, bola->y);
-    screenSetColor(BLACK, BLACK);
+    screenSetColor(GREEN, BLACK);
     printf("*");
     screenUpdate();
 }

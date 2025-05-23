@@ -330,7 +330,7 @@ void moveBola(Cord *bola, int barra, Cord*dir, int *pontos, int *vidas, char **m
     bola->x += dir->x;  // Atualiza a posição da bola
     bola->y += dir->y;
     screenGotoxy(bola->x, bola->y);
-    screenSetColor(BLACK, BLACK);
+    screenSetColor(GREEN, BLACK);
     printf("*");
     screenUpdate();
 }
