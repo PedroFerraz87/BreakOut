@@ -1,4 +1,4 @@
-# BreakOut
+# 🧩 BreakOut
 
 Projeto de PIF da AV2 feito por um grupo de 3 alunos do 2° período de ciência da computação da CESAR School.
 
