@@ -5,7 +5,7 @@ Projeto de PIF da AV2 feito por um grupo de 3 alunos do segundo período de ciê
  ## Executando o Jogo
   Para compilar os arquivos, primeiramente, certifique-se de que todas as bibliotecas necessárias e o arquivo main.c estejam no mesmo diretório em sua máquina local. Em seguida, execute o comando a seguir:
 
-1. git clone https://github.com/seu-usuario/breakout.git
+1. git clone https://github.com/PedroFerraz87/breakout.git
 2. cd break-out
 3.  make
 4. ./break-out
