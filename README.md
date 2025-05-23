@@ -20,4 +20,4 @@ O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebat
 ## Membros do grupo
 - Pedro Valença Ferraz - pvf@cesar.school
 - Caio Cabral da Mata Buonora - ccmb@cesar.school
-- Rafael Fernandes - rlclf@cesar.school
+- Rafael de Lima Cavalcanti Loyo Fernandes - rlclf@cesar.school
