@@ -16,7 +16,7 @@ Projeto de PIF da AV2 feito por um grupo de 3 alunos da turma A do 2° período 
 [Link para o Vídeo no YouTube](https://youtu.be/ztfKbOfI62Y?feature=shared)
 
 ## Descrição
-O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebater a bola e não deixar cair e quebrar os blocos na parte superior da tela. Além disso, implementamos alguns um "poder" que surge aleatoriamente adicionando vidas (random).
+O objetivo do BreakOut é, usando duas teclas para controlar a plataforma, rebater a bola e não deixar cair e quebrar os blocos na parte superior da tela. Além disso, implementamos um "poder" que surge aleatoriamente adicionando vidas (random).
 ### Como jogar
 1. Pressione Enter para iniciar o jogo.
 2. Use as teclas 'A' e 'D' para mover a plataforma.
